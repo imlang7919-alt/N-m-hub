@@ -1,19 +1,11 @@
-local P=game:GetService("Players")
-local RS=game:GetService("ReplicatedStorage")
-local me=P.LocalPlayer
-local e=RS:WaitForChild("KickPlayer")
+local RS = game:GetService("ReplicatedStorage")
 
-local g=Instance.new("ScreenGui",me.PlayerGui)
-local f=Instance.new("Frame",g)
-f.Size=UDim2.new(0,250,0,350)
+local e = Instance.new("RemoteEvent")
+e.Name = "KickPlayer"
+e.Parent = RS
 
-for _,p in ipairs(P:GetPlayers()) do
-	if p~=me then
-		local b=Instance.new("TextButton",f)
-		b.Text="Kick "..p.Name
-		b.Size=UDim2.new(1,0,0,40)
-		b.MouseButton1Click:Connect(function()
-			e:FireServer(p)
-		end)
+e.OnServerEvent:Connect(function(plr, target)
+	if target and target:IsA("Player") then
+		target:Kick("Bạn đã bị kick!")
 	end
-end
+end)
